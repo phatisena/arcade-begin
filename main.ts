@@ -17,7 +17,7 @@ namespace begin {
     }
 
     //%blockid=begin_getspriteonsprite
-    //%block="get sprite of kind $kind on $uspr"
+    //%block="get sprite of kind $kind on $uspr location"
     //%kind.shadow=spritekind
     //%uspr.shadow=variables_get uspr.defl=mySprite
     //%weight=99
@@ -31,7 +31,7 @@ namespace begin {
     }
 
     //%blockid=begin_getspriteonspriteoverlap
-    //%block="get sprite of kind $kind on $uspr"
+    //%block="get sprite of kind $kind on $uspr overlaps"
     //%kind.shadow=spritekind
     //%uspr.shadow=variables_get uspr.defl=mySprite
     //%weight=98
