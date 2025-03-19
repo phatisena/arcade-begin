@@ -19,7 +19,7 @@ namespace begin {
     //%blockid=begin_getspriteonsprite
     //%block="get sprite of kind $kind on $uspr"
     //%kind.shadow=spritekind
-    //%uspr.shadow=varisbles_get uspr.defl=mySprite
+    //%uspr.shadow=variables_get uspr.defl=mySprite
     //%weight=99
     export function getSpriteOnSpriteLocation(kind: number, uspr: Sprite) {
         const usprloc = uspr.tilemapLocation()
@@ -33,7 +33,7 @@ namespace begin {
     //%blockid=begin_getspriteonspriteoverlap
     //%block="get sprite of kind $kind on $uspr"
     //%kind.shadow=spritekind
-    //%uspr.shadow=varisbles_get uspr.defl=mySprite
+    //%uspr.shadow=variables_get uspr.defl=mySprite
     //%weight=98
     export function getSpriteOnSpriteoverlap(kind: number, uspr: Sprite) {
         for (let sprv of sprites.allOfKind(kind)) {
