@@ -41,5 +41,110 @@ namespace begin {
         }
         return undefined
     }
+
+    //%blockid=begin_getspritehitthewallsprite
+    //%block="get $cursprite hitting $hittedsprite in wacking hitbox $wackinghitbox|| but get push by dx: $dx dy: $dy"
+    //%cursprite.shadow=variables_get cursprite.defl=mySprite
+    //%hittedsprite.shadow=variables_get hittedsprite.defl=otherSprite
+    //%wackinghitbox.shadow=toggleYesNo
+    //%weight=90
+    export function HitCollision(cursprite: Sprite, hittedsprite: Sprite, wackinghitbox: boolean, dx: number = 0, dy: number = 0) {
+        let CurSprite = cursprite
+        let HittedSprite = hittedsprite
+        if (CurSprite.overlapsWith(HittedSprite)) {
+            if (CurSprite.vy == 0 && CurSprite.vx != 0) {
+                if (CurSprite.vx > 0 && CurSprite.right > HittedSprite.left) {
+                    if (dx > 0) {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 1, 0)
+                            HittedSprite.left = CurSprite.right - Math.abs(cursprite.data["Dx"])
+                        } else {
+                            HittedSprite.left = CurSprite.right
+                        }
+                    } else {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, -1, 0)
+                            CurSprite.left += 0 - Math.abs(cursprite.data["Dx"])
+                        } else {
+                            CurSprite.left += 0 - Math.abs(CurSprite.right - HittedSprite.left)
+                        }
+                        CurSprite.vx = 0
+                    }
+                } else if (CurSprite.vx < 0 && CurSprite.left < HittedSprite.right) {
+                    if (dx < 0) {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, -1, 0)
+                            HittedSprite.right = CurSprite.left + Math.abs(cursprite.data["Dx"])
+                        } else {
+                            HittedSprite.right = CurSprite.left
+                        }
+                    } else {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 1, 0)
+                            CurSprite.right += Math.abs(cursprite.data["Dx"])
+                        } else {
+                            CurSprite.right += Math.abs(CurSprite.left - HittedSprite.right)
+                        }
+                        CurSprite.vx = 0
+                    }
+                }
+            } else if (CurSprite.vy != 0 && CurSprite.vx == 0) {
+                if (CurSprite.vy > 0 && CurSprite.bottom > HittedSprite.top) {
+                    if (dy > 0) {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 0, 1)
+                            HittedSprite.top = CurSprite.bottom - Math.abs(cursprite.data["Dy"])
+                        } else {
+                            HittedSprite.top = CurSprite.bottom
+                        }
+                    } else {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 0, -1)
+                            CurSprite.bottom += 0 - Math.abs(cursprite.data["Dy"])
+                        } else {
+                            CurSprite.bottom += 0 - Math.abs(CurSprite.right - HittedSprite.left)
+                        }
+                        CurSprite.vy = 0
+                    }
+                } else if (CurSprite.vy < 0 && CurSprite.top < HittedSprite.bottom) {
+                    if (dy < 0) {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 0, -1)
+                            HittedSprite.bottom = CurSprite.top + Math.abs(cursprite.data["Dy"])
+                        } else {
+                            HittedSprite.bottom = CurSprite.top
+                        }
+                    } else {
+                        if (wackinghitbox) {
+                            HitboxKick(cursprite, hittedsprite, 0, 1)
+                            CurSprite.top += Math.abs(cursprite.data["Dy"])
+                        } else {
+                            CurSprite.top += Math.abs(CurSprite.left - HittedSprite.right)
+                        }
+                        CurSprite.vy = 0
+                    }
+                }
+            }
+        }
+    }
+
+    function HitboxKick(ucursprite: Sprite, uhittedsprite: Sprite, Dx: number, Dy: number) {
+        ucursprite.data["Dx"] = Math.abs(ucursprite.right - uhittedsprite.left)
+        ucursprite.data["Dy"] = Math.abs(ucursprite.bottom - uhittedsprite.top)
+        if (Dx < 0) {
+            ucursprite.data["Dx"] = Math.abs(ucursprite.left - uhittedsprite.right)
+        }
+        if (Dy < 0) {
+            ucursprite.data["Dy"] = Math.abs(ucursprite.top - uhittedsprite.bottom)
+        }
+        while (!(uhittedsprite.image.overlapsWith(ucursprite.image, ucursprite.data["Dx"] + Dx, ucursprite.data["Dy"] + Dy))) {
+            ucursprite.data["Dx"] += Dx
+            ucursprite.data["Dy"] += Dy
+        }
+        while (uhittedsprite.image.overlapsWith(ucursprite.image, ucursprite.data["Dx"] - Dx, ucursprite.data["Dy"] - Dy)) {
+            ucursprite.data["Dx"] -= Dx
+            ucursprite.data["Dy"] -= Dy
+        }
+    }
     
 }
